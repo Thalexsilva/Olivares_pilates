@@ -1,0 +1,13 @@
+{
+  "name": "olivares-pilates-testes-regras",
+  "private": true,
+  "description": "Testes das regras do Firestore no emulador.",
+  "scripts": {
+    "test": "npx --yes firebase-tools --config ../firebase.json emulators:exec --only firestore --project demo-olivares-pilates \"vitest run\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.1",
+    "firebase": "12.17.1",
+    "vitest": "4.1.11"
+  }
+}

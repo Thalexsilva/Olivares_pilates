@@ -1,0 +1,107 @@
+rules_version = '2';
+
+// Regras do Olivares Pilates.
+//
+// Cada pessoa só lê e grava o próprio cadastro (`usuarios/{uid}`) e os
+// próprios alunos e aulas, marcados com o `uid` dela. Tudo que não está
+// liberado aqui é negado.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    function texto(valor, minimo, maximo) {
+      return valor is string && valor.size() >= minimo && valor.size() <= maximo;
+    }
+
+    function criadoAgora() {
+      return request.resource.data.criadoEm == request.time;
+    }
+
+    function donoECriacaoIntactos() {
+      return request.resource.data.uid == resource.data.uid &&
+          request.resource.data.criadoEm == resource.data.criadoEm;
+    }
+
+    function usuarioValido(userId) {
+      let dados = request.resource.data;
+      let campos = ['uid', 'nome', 'telefone', 'email', 'estudio', 'criadoEm'];
+      return dados.keys().hasOnly(campos) &&
+          dados.keys().hasAll(campos) &&
+          dados.uid == userId &&
+          texto(dados.nome, 3, 120) &&
+          texto(dados.telefone, 10, 20) &&
+          texto(dados.estudio, 3, 120) &&
+          dados.email == request.auth.token.email &&
+          dados.criadoEm is timestamp;
+    }
+
+    function alunoValido() {
+      let dados = request.resource.data;
+      let campos = [
+        'uid', 'nome', 'telefone', 'email', 'plano', 'objetivo', 'ativo',
+        'criadoEm'
+      ];
+      return dados.keys().hasOnly(campos) &&
+          dados.keys().hasAll(campos) &&
+          dados.uid == uid() &&
+          texto(dados.nome, 3, 120) &&
+          texto(dados.telefone, 10, 20) &&
+          texto(dados.email, 0, 254) &&
+          dados.plano in ['Particular', 'Wellhub', 'TotalPass', 'Experimental'] &&
+          texto(dados.objetivo, 1, 200) &&
+          dados.ativo is bool &&
+          dados.criadoEm is timestamp;
+    }
+
+    function aulaValida() {
+      let dados = request.resource.data;
+      let campos = [
+        'uid', 'titulo', 'dataHora', 'modalidade', 'capacidade',
+        'observacoes', 'criadoEm'
+      ];
+      return dados.keys().hasOnly(campos) &&
+          dados.keys().hasAll(campos) &&
+          dados.uid == uid() &&
+          texto(dados.titulo, 3, 120) &&
+          dados.dataHora is timestamp &&
+          dados.modalidade in [
+            'Reformer', 'Cadillac', 'Chair', 'Barrel', 'Solo', 'Circuito'
+          ] &&
+          dados.capacidade is int &&
+          dados.capacidade >= 1 &&
+          dados.capacidade <= 30 &&
+          texto(dados.observacoes, 0, 300) &&
+          dados.criadoEm is timestamp;
+    }
+
+    match /usuarios/{userId} {
+      allow get: if isSignedIn() && uid() == userId;
+      allow create: if isSignedIn() && uid() == userId &&
+          usuarioValido(userId) && criadoAgora();
+      allow update: if isSignedIn() && uid() == userId &&
+          usuarioValido(userId) && donoECriacaoIntactos();
+      allow list, delete: if false;
+    }
+
+    // A consulta precisa filtrar `uid` pelo usuário autenticado.
+    match /alunos/{alunoId} {
+      allow read, delete: if isSignedIn() && resource.data.uid == uid();
+      allow create: if isSignedIn() && alunoValido() && criadoAgora();
+      allow update: if isSignedIn() && resource.data.uid == uid() &&
+          alunoValido() && donoECriacaoIntactos();
+    }
+
+    match /aulas/{aulaId} {
+      allow read, delete: if isSignedIn() && resource.data.uid == uid();
+      allow create: if isSignedIn() && aulaValida() && criadoAgora();
+      allow update: if isSignedIn() && resource.data.uid == uid() &&
+          aulaValida() && donoECriacaoIntactos();
+    }
+  }
+}

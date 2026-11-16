@@ -28,12 +28,11 @@ class DefaultFirebaseOptions {
     measurementId: 'G-6CDST1T6P5',
   );
 
-  /// O app Android ainda não foi registrado no projeto Firebase. Registre em
-  /// Configurações do projeto > Seus apps > Android, com o pacote
-  /// `br.com.olivares.olivares_pilates`, e troque esta definição pelas chaves
-  /// geradas (ou rode `flutterfire configure`).
-  static FirebaseOptions get android => throw UnsupportedError(
-    'O app Android ainda não foi registrado no projeto Firebase. '
-    'Veja o passo a passo no README.md.',
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyAKxLQJj5ZXeVoYy3s_48-ATav7lyFuNTk',
+    appId: '1:25927648388:android:ed5fdd46dae19c3a8b6ed1',
+    messagingSenderId: '25927648388',
+    projectId: 'olivaresfatec',
+    storageBucket: 'olivaresfatec.firebasestorage.app',
   );
 }

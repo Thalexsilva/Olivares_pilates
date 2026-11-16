@@ -98,7 +98,5 @@ O projeto `olivaresfatec` precisa de:
 1. Authentication com o método **E-mail/senha** ativo.
 2. Cloud Firestore criado, com as regras de `firestore.rules` publicadas.
 3. App Web registrado (as chaves estão em `lib/firebase_options.dart`).
-4. Para rodar no Android: app Android registrado com o pacote
-   `br.com.olivares.olivares_pilates` e as chaves dele em
-   `DefaultFirebaseOptions.android`. O comando `flutterfire configure` faz os
-   dois passos.
+4. App Android registrado com o pacote `br.com.olivares.olivares_pilates`
+   (as chaves estão em `DefaultFirebaseOptions.android`).

@@ -1,14 +1,47 @@
+<div align="center">
+
+<img src="assets/imagens/logo_olivares.png" alt="Logo do Olivares Pilates" width="120">
+
 # Olivares Pilates
 
 Aplicativo Flutter para a instrutora de Pilates cadastrar e acompanhar os
-alunos e as aulas do estúdio. Cada pessoa cria a própria conta e só ela vê os
-dados que cadastrou.
+alunos e as aulas do estúdio.
 
-Projeto Prático de Programação para Dispositivos Móveis (Flutter, Parte 2).
+[![CI](https://github.com/Thalexsilva/Olivares_pilates/actions/workflows/ci.yml/badge.svg)](https://github.com/Thalexsilva/Olivares_pilates/actions/workflows/ci.yml)
+![Flutter](https://img.shields.io/badge/Flutter-3.44-02569B?logo=flutter&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-Auth%20%7C%20Firestore%20%7C%20Hosting-FFCA28?logo=firebase&logoColor=black)
+
+**[Abrir o aplicativo](https://olivaresfatec.web.app)**
+
+</div>
+
+## Sobre
+
+Projeto Prático de Programação para Dispositivos Móveis (Flutter, Parte 2),
+do curso de Análise e Desenvolvimento de Sistemas.
+
+Cada pessoa cria a própria conta e só ela vê os dados que cadastrou.
 
 - Roda no navegador e no Android, com o mesmo código.
 - Usa Firebase Authentication e Cloud Firestore (projeto `olivaresfatec`).
-- Endereço no Firebase Hosting: https://olivaresfatec.web.app
+- Publicado no Firebase Hosting: https://olivaresfatec.web.app
+- Tema claro e escuro, em telas grandes e de celular.
+
+## Telas
+
+| Login | Cadastro |
+| --- | --- |
+| ![Tela de login](docs/telas/login.png) | ![Tela de cadastro](docs/telas/cadastro.png) |
+
+| Alunos | Aulas |
+| --- | --- |
+| ![Lista de alunos](docs/telas/alunos.png) | ![Lista de aulas](docs/telas/aulas.png) |
+
+<p align="center">
+  <img src="docs/telas/login-celular-escuro.png" alt="Login no celular, tema escuro" width="260">
+  &nbsp;&nbsp;
+  <img src="docs/telas/aulas-celular-escuro.png" alt="Aulas no celular, tema escuro" width="260">
+</p>
 
 ## Onde está cada requisito
 
@@ -50,6 +83,7 @@ test/                    testes de unidade e de tela
 testes_regras/           testes das regras do Firestore no emulador
 firestore.rules          regras de segurança
 firebase.json            Hosting, regras e emuladores
+docs/telas/              capturas de tela deste README
 ```
 
 ## Como rodar
@@ -100,3 +134,7 @@ O projeto `olivaresfatec` precisa de:
 3. App Web registrado (as chaves estão em `lib/firebase_options.dart`).
 4. App Android registrado com o pacote `br.com.olivares.olivares_pilates`
    (as chaves estão em `DefaultFirebaseOptions.android`).
+
+## Autor
+
+Thales de Oliveira Silva Chioca Caiares
